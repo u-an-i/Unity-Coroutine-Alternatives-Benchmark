@@ -15,7 +15,7 @@ benchmarks baseline, Update, Coroutine, above MEC Coroutine and 3 own implementa
 
 my own implementation using my own data structure
 
-That is this code: https://github.com/u-an-i/Unity-Coroutine-Alternatives-Benchmark/blob/main/Unity%20project/Assets/My/CoroutineReplacement2.cs
+That is this code: https://github.com/u-an-i/Unity-Coroutine-Alternatives-Benchmark/blob/main/Unity%20project/Assets/My/CoroutineReplacement2.cs  
 Usage: Put it on an active GameObject in your Scene, it is the manager. Use `Timing.RunCoroutine` optionally passing an int from 0 to 4 for a bin as the second parameter. The first parameter is your code which must now return an `IEnumerator<float>`. Use `Timing.WaitForSeconds` and `Timing.KillCoroutines` respectively, passing either the `CoroutineHandle` returned from `Timing.RunCoroutine` or the bin int passed to it to the latter to cancel the running coroutine early or to cancel all running coroutines of that bin early. Do not instruct to kill an already killed coroutine. Set `CoroutineHandle.bin` of a handle referencing a killed coroutine to null. Best do so at the end of your code in a coroutine too if you stored the handle returned from `Timing.RunCoroutine`.
 
 
