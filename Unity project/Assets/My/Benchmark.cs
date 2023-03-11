@@ -70,6 +70,8 @@ public class Benchmark : MonoBehaviour
 
     private float framesPerSecond;
 
+    private bool autoMode = false;
+
     IEnumerator checker()
     {
         yield return 0;
@@ -129,27 +131,39 @@ public class Benchmark : MonoBehaviour
 
         framesPerSecond = (frameCount - startCount) / (Time.time - startTime);
 
-
-        Instantiate(resultUI).GetComponentInChildren<Text>().text =
-              "no movement: " + Mathf.FloorToInt(framesPerSecond) + " fps\n\n"
-            + "    prepare: " + Mathf.FloorToInt(utimes[0]) + " ms\n"
-            + list[0].getMover(0).getId() + ": <color=#ff0000ff>" + Mathf.FloorToInt(fps[0]) + "</color> fps\n"
-            + "    cleanup: " + Mathf.FloorToInt(dtimes[0]) + " ms\n\n"
-            + "    prepare: " + Mathf.FloorToInt(utimes[1]) + " ms\n"
-            + list[0].getMover(1).getId() + ": <color=#ff0000ff>" + Mathf.FloorToInt(fps[1]) + "</color> fps\n"
-            + "    cleanup: " + Mathf.FloorToInt(dtimes[1]) + " ms\n\n"
-            + "    prepare: " + Mathf.FloorToInt(utimes[5]) + " ms\n"
-            + list[0].getMover(5).getId() + ": <color=#ff0000ff>" + Mathf.FloorToInt(fps[5]) + "</color> fps\n"
-            + "    cleanup: " + Mathf.FloorToInt(dtimes[5]) + " ms\n\n"
-            + "    prepare: " + Mathf.FloorToInt(utimes[2]) + " ms\n"
-            + list[0].getMover(2).getId() + ": <color=#ff0000ff>" + Mathf.FloorToInt(fps[2]) + "</color> fps\n"
-            + "    cleanup: " + Mathf.FloorToInt(dtimes[2]) + " ms\n\n"
-            + "    prepare: " + Mathf.FloorToInt(utimes[3]) + " ms\n"
-            + list[0].getMover(3).getId() + ": <color=#ff0000ff>" + Mathf.FloorToInt(fps[3]) + "</color> fps\n"
-            + "    cleanup: " + Mathf.FloorToInt(dtimes[3]) + " ms\n\n"
-            + "    prepare: " + Mathf.FloorToInt(utimes[4]) + " ms\n"
-            + list[0].getMover(4).getId() + ": <color=#ff0000ff>" + Mathf.FloorToInt(fps[4]) + "</color> fps\n"
-            + "    cleanup: " + Mathf.FloorToInt(dtimes[4]) + " ms\n\n";
+        if(autoMode)
+        {
+            System.Console.WriteLine(
+                ";no movement;" + list[0].getMover(0).getId() + ";" + list[0].getMover(1).getId() + ";" + list[0].getMover(5).getId() + ";" + list[0].getMover(2).getId() + ";" + list[0].getMover(3).getId() + ";" + list[0].getMover(4).getId() + "\n"
+                + "prepare;-;" + Mathf.FloorToInt(utimes[0]) + ";" + Mathf.FloorToInt(utimes[1]) + ";" + Mathf.FloorToInt(utimes[5]) + ";" + Mathf.FloorToInt(utimes[2]) + ";" + Mathf.FloorToInt(utimes[3]) + ";" + Mathf.FloorToInt(utimes[4]) + "\n"
+                + "run;" + Mathf.FloorToInt(framesPerSecond) + ";" + Mathf.FloorToInt(fps[0]) + ";" + Mathf.FloorToInt(fps[1]) + ";" + Mathf.FloorToInt(fps[5]) + ";" + Mathf.FloorToInt(fps[2]) + ";" + Mathf.FloorToInt(fps[3]) + ";" + Mathf.FloorToInt(fps[4]) + "\n"
+                + "cleanup;-;" + Mathf.FloorToInt(dtimes[0]) + ";" + Mathf.FloorToInt(dtimes[1]) + ";" + Mathf.FloorToInt(dtimes[5]) + ";" + Mathf.FloorToInt(dtimes[2]) + ";" + Mathf.FloorToInt(dtimes[3]) + ";" + Mathf.FloorToInt(dtimes[4])
+            );
+            Application.Quit();
+        }
+        else
+        {
+            Instantiate(resultUI).GetComponentInChildren<Text>().text =
+                  "no movement: " + Mathf.FloorToInt(framesPerSecond) + " fps\n\n"
+                + "    prepare: " + Mathf.FloorToInt(utimes[0]) + " ms\n"
+                + list[0].getMover(0).getId() + ": <color=#ff0000ff>" + Mathf.FloorToInt(fps[0]) + "</color> fps\n"
+                + "    cleanup: " + Mathf.FloorToInt(dtimes[0]) + " ms\n\n"
+                + "    prepare: " + Mathf.FloorToInt(utimes[1]) + " ms\n"
+                + list[0].getMover(1).getId() + ": <color=#ff0000ff>" + Mathf.FloorToInt(fps[1]) + "</color> fps\n"
+                + "    cleanup: " + Mathf.FloorToInt(dtimes[1]) + " ms\n\n"
+                + "    prepare: " + Mathf.FloorToInt(utimes[5]) + " ms\n"
+                + list[0].getMover(5).getId() + ": <color=#ff0000ff>" + Mathf.FloorToInt(fps[5]) + "</color> fps\n"
+                + "    cleanup: " + Mathf.FloorToInt(dtimes[5]) + " ms\n\n"
+                + "    prepare: " + Mathf.FloorToInt(utimes[2]) + " ms\n"
+                + list[0].getMover(2).getId() + ": <color=#ff0000ff>" + Mathf.FloorToInt(fps[2]) + "</color> fps\n"
+                + "    cleanup: " + Mathf.FloorToInt(dtimes[2]) + " ms\n\n"
+                + "    prepare: " + Mathf.FloorToInt(utimes[3]) + " ms\n"
+                + list[0].getMover(3).getId() + ": <color=#ff0000ff>" + Mathf.FloorToInt(fps[3]) + "</color> fps\n"
+                + "    cleanup: " + Mathf.FloorToInt(dtimes[3]) + " ms\n\n"
+                + "    prepare: " + Mathf.FloorToInt(utimes[4]) + " ms\n"
+                + list[0].getMover(4).getId() + ": <color=#ff0000ff>" + Mathf.FloorToInt(fps[4]) + "</color> fps\n"
+                + "    cleanup: " + Mathf.FloorToInt(dtimes[4]) + " ms\n\n";
+        }
     }
 
     // Start is called before the first frame update
@@ -165,6 +179,7 @@ public class Benchmark : MonoBehaviour
                 if(arg > 0)
                 {
                     numMovers = arg;
+                    autoMode = true;
                 }
             }
             catch(Exception e)
