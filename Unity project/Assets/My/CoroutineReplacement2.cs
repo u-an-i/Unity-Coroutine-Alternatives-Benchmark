@@ -100,22 +100,30 @@ namespace u_i_2
 
         public ref CoroutineReplacement2.crValues GetNext()
         {
-            if(++iteratorIndex == size)
+            do
             {
-                iteratorIndex = 0;
-                iteratorCurrent = iteratorCurrent.next;
+                if (++iteratorIndex == size)
+                {
+                    iteratorIndex = 0;
+                    iteratorCurrent = iteratorCurrent.next;
+                }
+                if (iteratorCurrent != null && (iteratorCurrent != peakContent || iteratorIndex < peakPeak))
+                {
+                    ref CoroutineReplacement.crValues value = ref iteratorCurrent.content[iteratorIndex];
+                    if (value.enumerator != null)
+                    {
+                        return ref value;
+                    }
+                    continue;
+                }
+                else
+                {
+                    iteratorIndex = -1;
+                    iteratorCurrent = first;
+                    return ref nullValue;
+                }
             }
-            if(iteratorCurrent != null && (iteratorCurrent != peakContent || iteratorIndex < peakPeak))
-            {
-                ref CoroutineReplacement2.crValues value = ref iteratorCurrent.content[iteratorIndex];
-                return ref (value.enumerator != null ? ref value : ref GetNext());
-            }
-            else
-            {
-                iteratorIndex = -1;
-                iteratorCurrent = first;
-                return ref nullValue;
-            }
+            while (true);
         }
 
         public void DeleteAtIterator()

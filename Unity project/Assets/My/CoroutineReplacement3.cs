@@ -55,16 +55,24 @@ namespace u_i_3
 
         public CoroutineReplacement3.crValues GetNext()
         {
-            if(++iteratorIndex < content.Count)
+            do
             {
-                CoroutineReplacement3.crValues value = content[iteratorIndex];
-                return (value.enumerator != null ? value : GetNext());
+                if (++iteratorIndex < content.Count)
+                {
+                    CoroutineReplacement3.crValues value = content[iteratorIndex];
+                    if (value.enumerator != null)
+                    {
+                        return value;
+                    }
+                    continue;
+                }
+                else
+                {
+                    iteratorIndex = -1;
+                    return nullValue;
+                }
             }
-            else
-            {
-                iteratorIndex = -1;
-                return nullValue;
-            }
+            while (true);
         }
 
         public void ReplaceAtIterator(CoroutineReplacement3.crValues value)
