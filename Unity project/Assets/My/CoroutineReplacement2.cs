@@ -109,7 +109,7 @@ namespace u_i_2
                 }
                 if (iteratorCurrent != null && (iteratorCurrent != peakContent || iteratorIndex < peakPeak))
                 {
-                    ref CoroutineReplacement.crValues value = ref iteratorCurrent.content[iteratorIndex];
+                    ref CoroutineReplacement2.crValues value = ref iteratorCurrent.content[iteratorIndex];
                     if (value.enumerator != null)
                     {
                         return ref value;
