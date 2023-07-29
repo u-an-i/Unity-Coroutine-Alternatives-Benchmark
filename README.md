@@ -1,22 +1,35 @@
 # Unity-Coroutine-Alternatives-Benchmark
-benchmark of ways to "animate" in Unity
+*benchmark of ways to "animate" in Unity*  
   
-You will need https://assetstore.unity.com/packages/tools/animation/more-effective-coroutines-free-54975, to be put inside `Unity project/Assets/Plugins/`
+You will need https://assetstore.unity.com/packages/tools/animation/more-effective-coroutines-free-54975, to be put inside `Unity project/Assets/Plugins/`  
   
-benchmarks baseline, Update, Coroutine, above MEC Coroutine and 3 own implementations 2 of which use .NET Collections and 1 of which directly
+---
+    
+benchmarks  
+- Update
+- Coroutine
+- above MEC Coroutine
+- 3 own implementations 2 of which use .NET Collections and 1 of those directly
   
+by moving GameObjects  
+and  
+benchmarks
+- baseline by no movement
+  
+---
   
 ## Results
   
-### Unity 2022.1.b10, Standard built-in rendering pipeline
-![coroutine benchmark results](https://user-images.githubusercontent.com/84718885/156923180-f3fac92f-5b82-41b6-bbab-03e3353b009d.png)
-
-### Unity 2023.1.b7, Standard and URP
-![cr bm 2023 1](https://user-images.githubusercontent.com/84718885/224515482-23785bfe-a212-4e7a-9e94-bd702be96758.png)
-
-### Unity 2023.1.b7, no recursion, URP
-![image](https://user-images.githubusercontent.com/84718885/232329466-91b9b920-8761-4ebc-875b-3ac4b369f1b7.png)
-
+### Unity 2023.1.6, URP + IL2CPP
+![coroutine benchmarks results update](https://github.com/u-an-i/Unity-Coroutine-Alternatives-Benchmark/assets/84718885/bd50414c-7cba-4443-9c89-86a13337ee02)
+  
+Excel files containing benchmark results of older Unity versions, Mono and Standard Built-In rendering pipeline are inside this repository.  
+  
+### direct comparison showing the winning implementation of my own implementations only
+![coroutine benchmarks results animation ways comparison 1000 GO](https://github.com/u-an-i/Unity-Coroutine-Alternatives-Benchmark/assets/84718885/049ee421-1b98-4677-b847-decf1e0b88e8)
+![coroutine benchmarks results animation ways comparison 10000 GO](https://github.com/u-an-i/Unity-Coroutine-Alternatives-Benchmark/assets/84718885/5fb55628-6c10-4dcd-a881-4241dd246dcf)
+![coroutine benchmarks results preparation time comparison](https://github.com/u-an-i/Unity-Coroutine-Alternatives-Benchmark/assets/84718885/a3630d66-583f-4cff-b6f1-88a6db0d27f2)
+![coroutine benchmarks results cleanup time comparison](https://github.com/u-an-i/Unity-Coroutine-Alternatives-Benchmark/assets/84718885/4928fe2e-f553-42a3-b037-bd43e1e394c2)
   
   
 ## winner
@@ -24,9 +37,18 @@ benchmarks baseline, Update, Coroutine, above MEC Coroutine and 3 own implementa
 my own implementation using my own data structure
   
 That is this code: https://github.com/u-an-i/Unity-Coroutine-Alternatives-Benchmark/blob/main/Unity%20project/Assets/My/CoroutineReplacement2.cs  
-Usage: Put it on an active GameObject in your Scene, it is the manager. Use `Timing.RunCoroutine` optionally passing an int from 0 to 4 for a bin as the second parameter. The first parameter is your code which must now return an `IEnumerator<float>`. Use `Timing.WaitForSeconds` and `Timing.KillCoroutines` respectively, passing either the `CoroutineHandle` returned from `Timing.RunCoroutine` or the bin int passed to it to the latter to cancel the running coroutine early or to cancel all running coroutines of that bin early. Do not instruct to kill an already killed coroutine. Set `CoroutineHandle.bin` of a handle referencing a killed coroutine to null. Best do so at the end of your code in a coroutine too if you stored the handle returned from `Timing.RunCoroutine`.
+  
+Usage:  
+Put it on an active GameObject in your Scene, it is the manager.  
+Use `Timing.RunCoroutine` optionally passing an int from 0 to 4 for a bin as the second parameter.  
+The first parameter is your code which must now return an `IEnumerator<float>`.  
+Use `Timing.WaitForSeconds` and `Timing.KillCoroutines` respectively, passing either the `CoroutineHandle` returned from `Timing.RunCoroutine` or the bin int passed to it to the latter to cancel the running coroutine early or to cancel all running coroutines of that bin early.  
+  
+Do not instruct to kill an already killed coroutine.  
+You can set `CoroutineHandle.bin` of a handle referencing a killed coroutine to null, for example at the end of your coroutined code if you stored the handle returned from `Timing.RunCoroutine` in an outer scope, and check it against null before you would instruct to kill it.    
   
   
-## takeaway
+## takeaway  
   
-Unity's Update is already very effective and moving 10,000 individual Updates to 1 single Update lets improve performance only by a rather very small amount.
+What (do) you think (?).  
+  
