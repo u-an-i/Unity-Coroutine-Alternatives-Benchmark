@@ -1,5 +1,14 @@
 # Unity-Coroutine-Alternatives-Benchmark
 *benchmark of ways to "animate" in Unity*  
+
+Coroutines in Unity are useful when wanting to let perform "animations" parallel to the game logic of a MonoBehaviour (MonoBehaviours are put on GameObjects).  
+They are characterised by a usual sudden start and a usual finite, relative short duration.  
+For example when the Update loop of a MonoBehaviour performs GameObject movement and hit detection and on hit the gameplay designer likes the GameObject to perform a "shaking" movement,
+this shaking movement can be implemented by a Coroutine. That Coroutine would be executed by Unity next to the Update loop and could change the rotation of the GameObject acting on top of the usual Update movement to mimic the shaking movement.  
+Coroutines were (and still are according to the result of this benchmark here as of writing this) reducing performance in Unity though and alternatives are offered on Unity Asset Store and here. The performance of 1 of such offered and 3 self-developed alternatives is benchmarked here.  
+Another alternative to a Coroutine is another MonoBehaviour which performs the "animation" in its Update loop and which gets enabled on demand.  
+Besides framerate performance benchmarking, preparation and cleanup duration of each method is measured. For the Update case for example, the duration to enable the MonoBehaviour is measured, for a Coroutine alternative case the duration to call the start of it is measured.  
+Having established the need for a Coroutine is a "sudden one-off", they and their alternatives can still be used to replace the usual game logic Update loop itself. For this reason, and because the "sudden one-off"s can actually occur multiple times in a gameplay session having many units represented by GameObjects many of which could be hit almost at once, and for the reason of determining how each method scales, this benchmark here benchmarks the application of each method on 10, 100, 1000, 10000 and 100000 GameObjects.  
   
 You will need https://assetstore.unity.com/packages/tools/animation/more-effective-coroutines-free-54975, to be put inside `Unity project/Assets/Plugins/`  
   
@@ -9,7 +18,7 @@ benchmarks
 - Update
 - Coroutine
 - above MEC Coroutine
-- 3 own implementations 2 of which use .NET Collections and 1 of those directly
+- 3 own implementations 2 of which use .NET Collections and 1 of those for all of its needs
   
 by moving GameObjects  
 and  
